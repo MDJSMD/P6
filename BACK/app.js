@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
 require("dotenv").config();
-
+const helmet = require("helmet");
 
 
 const sauceRoutes = require("./routes/sauce");
@@ -10,17 +10,26 @@ const path = require("path");
 
 
 const app = express();
-
+app.use(helmet());
 
 app.use(express.json());
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
-});
-  
 
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*"); 
+    res.setHeader("Cross-Origin-Resource-Policy", "same-site");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+    ); 
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE"
+    ); 
+    next();
+  });
+
+
+  
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env.LOGIN_DB,
     { 
