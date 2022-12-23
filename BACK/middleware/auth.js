@@ -1,11 +1,12 @@
+//Importation du module "jsonwebtoken" pour vérifier l'authenticité d'un token d'authentification.
 const jwt = require('jsonwebtoken');
- 
+//Exportation du module 
 module.exports = (req, res, next) => {
    try {
-       const token = req.headers.authorization.split(' ')[1];
-       const decodedToken = jwt.verify(token, process.env.LOGIN_TOKEN);
+       const token = req.headers.authorization.split(' ')[1]; //Vérification de la présence d'un token.
+       const decodedToken = jwt.verify(token, process.env.LOGIN_TOKEN); ////Vérification de l'authenticité du token grâce à une clef secrète.
        const userId = decodedToken.userId;
-       req.auth = {
+       req.auth = { //Stockage de l'identifiant de l'utilisateur dans l'objet req.auth.
            userId: userId
        };
 	next();

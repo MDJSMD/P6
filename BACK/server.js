@@ -1,6 +1,9 @@
+//création d'un serveur HTTP à l'aide de la bibliothèque 'http' de node.js.
 const http = require("http");
+//importation du fichier de l'application.
 const app = require("./app");
 
+//Fonction qui convertit une valeur de port en entier et renvoie une erreur si la valeur est inférieure à 0.
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -12,9 +15,10 @@ const normalizePort = val => {
   }
   return false;
 };
+//Fonction qui renvoi un port valide et utilisé par le fichier app.js.
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
+//Fonction qui gère les erreurs
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -34,7 +38,7 @@ const errorHandler = error => {
       throw error;
   }
 };
-
+//Fonction qui créer un serveur avec la valeur app comme argument.
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
@@ -44,5 +48,6 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
+//Fonction qui démarre le serveur avec le port comme argument.
 server.listen(port);
 
